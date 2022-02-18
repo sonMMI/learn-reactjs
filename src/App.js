@@ -1,10 +1,11 @@
-import React from "react";
-import logo from "./logo.svg";
+import React from 'react';
+import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import ColorBox from './components/ColorBox';
+import Counter from './components/Counter';
+import NotFound from './components/NotFound';
+import AlbumFeature from './features/Album';
 // import "./App.css";
-import TodoFeature from "./features/Todo";
-import AlbumFeature from "./features/Album";
-import ColorBox from "./components/ColorBox";
-import Counter from "./components/Counter";
+import TodoFeature from './features/Todo';
 
 function App() {
   // Render Element in reactjs
@@ -68,11 +69,38 @@ function App() {
           </ul>
         </header> */}
       </div>
+      Header
+      <p>
+        <Link to="todos">Todos</Link>
+      </p>
+      <p>
+        <Link to="albums">Albums</Link>
+      </p>
+      <p>
+        <NavLink to="todos" activeClassName="active-menu">
+          Todos
+        </NavLink>
+      </p>
+      <p>
+        <NavLink to="albums" activeClassName="active">
+          Albums
+        </NavLink>
+      </p>
+      <Switch>
+        {/* phải nằm trong switch và có thể dùng thêm exact */}
+        <Redirect from="/home/exact" to="/count" exact />
+        <Redirect from="/home" to="/color" />
+        <Redirect from="/post-list/:postId" to="/post/:postId" />
 
-      <TodoFeature />
-      {/* <AlbumFeature />
-      <ColorBox />
-      <Counter /> */}
+        <Route path="/" component={TodoFeature} exact />
+        <Route path="/todos" component={TodoFeature} />
+        <Route path="/albums" component={AlbumFeature} />
+        <Route path="/color" component={ColorBox} />
+        <Route path="/count" component={Counter} />
+
+        <Route component={NotFound} />
+      </Switch>
+      Footer
     </div>
   );
 }
