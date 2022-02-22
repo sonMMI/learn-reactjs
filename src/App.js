@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
+import productApi from './api/productApt';
 import ColorBox from './components/ColorBox';
 import Counter from './components/Counter';
 import NotFound from './components/NotFound';
@@ -16,6 +17,18 @@ function App() {
   //   name: "DVS - MMI",
   // };
   // const colorList = ["red", "blue", "green"];
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const params = {
+        _limit: 10,
+      };
+
+      const productList = await productApi.getAll(params);
+      console.log(productList);
+    };
+    fetchProducts();
+  }, []);
 
   return (
     <div className="App">
