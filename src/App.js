@@ -5,6 +5,7 @@ import ColorBox from './components/ColorBox';
 import Counter from './components/Counter';
 import NotFound from './components/NotFound';
 import AlbumFeature from './features/Album';
+import CounterFeature from './features/Counter';
 // import "./App.css";
 import TodoFeature from './features/Todo';
 
@@ -105,15 +106,14 @@ function App() {
         <Redirect from="/home" to="/color" />
         <Redirect from="/post-list/:postId" to="/post/:postId" />
 
-        <Route path="/" component={TodoFeature} exact />
+        <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
         <Route path="/color" component={ColorBox} />
         <Route path="/count" component={Counter} />
 
-        <Route component={NotFound} />
+        {/* <Route component={NotFound} /> */}
       </Switch>
-      Footer
     </div>
   );
 }
