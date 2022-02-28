@@ -11,7 +11,7 @@ function Register(props) {
 
   return (
     <div>
-      <RegisterForm onsubmit={handleSubmit} />
+      <RegisterForm onSubmit={handleSubmit} />
     </div>
   );
 }
