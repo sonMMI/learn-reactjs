@@ -1,3 +1,4 @@
+import Header from 'components/Header';
 import React, { useEffect } from 'react';
 import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
 import productApi from './api/productApt';
@@ -83,8 +84,7 @@ function App() {
           </ul>
         </header> */}
       </div>
-      Header
-      <p>
+      {/* <p>
         <Link to="todos">Todos</Link>
       </p>
       <p>
@@ -99,7 +99,10 @@ function App() {
         <NavLink to="albums" activeClassName="active">
           Albums
         </NavLink>
-      </p>
+      </p> */}
+
+      <Header />
+
       <Switch>
         {/* phải nằm trong switch và có thể dùng thêm exact */}
         <Redirect from="/home/exact" to="/count" exact />
