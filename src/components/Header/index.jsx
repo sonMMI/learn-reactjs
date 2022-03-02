@@ -1,21 +1,18 @@
+import CloseIcon from '@mui/icons-material/Close';
 import CodeIcon from '@mui/icons-material/Code';
+import { IconButton } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
+import Dialog from '@mui/material/Dialog';
+import DialogContent from '@mui/material/DialogContent';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import { makeStyles } from '@mui/styles';
-import React, { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
 import Register from 'features/Auth/components/Register';
+import React, { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
   root: {
     flexGrow: 1,
   },
@@ -29,7 +26,12 @@ const useStyles = makeStyles((theme) => ({
     color: '#fff',
     textDecoration: 'none',
   },
-}));
+  closeButton: {
+    top: 16,
+    right: 16,
+    zIndex: 1,
+  },
+});
 
 export default function Header() {
   const [open, setOpen] = useState(false);
@@ -78,12 +80,17 @@ export default function Header() {
           }
         }}
       >
+        <IconButton
+          className={classes.closeButton}
+          sx={{ position: 'absolute' }}
+          onClick={handleClose}
+        >
+          <CloseIcon />
+        </IconButton>
+
         <DialogContent>
-          <Register />
+          <Register closeDialog={handleClose} />
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-        </DialogActions>
       </Dialog>
     </div>
   );

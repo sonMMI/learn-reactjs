@@ -1,6 +1,7 @@
 import { yupResolver } from '@hookform/resolvers/yup';
 import { LockOpenOutlined } from '@mui/icons-material';
-import { Avatar, Button, styled, Typography } from '@mui/material';
+import { Avatar, Button, LinearProgress, Typography } from '@mui/material';
+import { makeStyles } from '@mui/styles';
 import InputField from 'components/form-controls/inputField';
 import PasswordField from 'components/form-controls/passwordField';
 import PropTypes from 'prop-types';
@@ -8,9 +9,22 @@ import React from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 
-// css
-const MyDiv = styled('div')({
-  paddingTop: 32,
+const useStyles = makeStyles({
+  root: {
+    position: 'relative',
+    paddingTop: 32,
+  },
+  progress: {
+    position: 'absolute',
+    top: 1,
+    width: '100%',
+  },
+  avatar: {
+    margin: '0px auto',
+  },
+  typography: {
+    textAlign: 'center',
+  },
 });
 
 // ===========
@@ -59,25 +73,28 @@ function RegisterForm(props) {
     resolver: yupResolver(schema),
   });
 
-  const handleSubmit = (values) => {
+  const classes = useStyles();
+
+  const handleSubmit = async (values) => {
     const { onSubmit } = props;
     if (onSubmit) {
-      onSubmit(values);
+      await onSubmit(values);
     }
-    form.reset();
   };
 
+  const { isSubmitting } = form.formState;
+
   return (
-    <MyDiv>
-      <Avatar sx={{ bgcolor: 'red', m: '0px auto' }}>
+    <div className={classes.root}>
+      {isSubmitting && <LinearProgress className={classes.progress} />}
+
+      <Avatar className={classes.avatar} sx={{ bgcolor: 'red' }}>
         <LockOpenOutlined></LockOpenOutlined>
       </Avatar>
 
       <Typography
-        sx={{
-          textAlign: 'center',
-          m: '16px 0px',
-        }}
+        sx={{ m: '16px 0px' }}
+        className={classes.typography}
         component="h3"
         variant="h5"
       >
@@ -95,16 +112,18 @@ function RegisterForm(props) {
         />
 
         <Button
+          disabled={isSubmitting}
           type="submit"
           sx={{ mt: 2 }}
           variant="contained"
           color="primary"
           fullWidth
+          size={'large'}
         >
           Create an account
         </Button>
       </form>
-    </MyDiv>
+    </div>
   );
 }
 
