@@ -1,7 +1,8 @@
 import Header from 'components/Header';
+import ProductFeature from 'features/Product';
 import React, { useEffect } from 'react';
 import { Link, NavLink, Redirect, Route, Switch } from 'react-router-dom';
-import productApi from './api/productApt';
+import productApi from './api/productApi';
 import ColorBox from './components/ColorBox';
 import Counter from './components/Counter';
 import NotFound from './components/NotFound';
@@ -20,17 +21,17 @@ function App() {
   // };
   // const colorList = ["red", "blue", "green"];
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      const params = {
-        _limit: 10,
-      };
+  // useEffect(() => {
+  //   const fetchProducts = async () => {
+  //     const params = {
+  //       _limit: 10,
+  //     };
 
-      const productList = await productApi.getAll(params);
-      console.log(productList);
-    };
-    fetchProducts();
-  }, []);
+  //     const productList = await productApi.getAll(params);
+  //     console.log(productList);
+  //   };
+  //   fetchProducts();
+  // }, []);
 
   return (
     <div className="App">
@@ -112,10 +113,11 @@ function App() {
         <Route path="/" component={CounterFeature} exact />
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
+        <Route path="/products" component={ProductFeature} />
+
         <Route path="/color" component={ColorBox} />
         <Route path="/count" component={Counter} />
-
-        {/* <Route component={NotFound} /> */}
+        <Route component={NotFound} />
       </Switch>
     </div>
   );
