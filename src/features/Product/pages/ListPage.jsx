@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import PropTypes from 'prop-types';
-import { Box, Container, Grid, Paper, Typography } from '@mui/material';
+import { Box, Container, Grid, Pagination, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import productApi from 'api/productApi';
-import ProductSkeletonList from '../components/ProductSkeletonList';
+import React, { useEffect, useState } from 'react';
 import ProductList from '../components/ProductList';
+import ProductSkeletonList from '../components/ProductSkeletonList';
 
 ListPage.propTypes = {};
 
@@ -16,25 +15,49 @@ const useStyles = makeStyles({
   right: {
     flex: '1 1 0',
   },
+  pagination: {
+    display: 'flex',
+    flexFlow: 'row nowrap',
+    justifyContent: 'center',
+    marginTop: 24,
+    paddingBottom: 16,
+  },
 });
 
 function ListPage(props) {
   const classes = useStyles();
   const [productList, setProductList] = useState([]);
+  const [pagination, setPagination] = useState({
+    limit: 9,
+    total: 10,
+    page: 1,
+  });
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    _page: 1,
+    _limit: 9,
+  });
 
   useEffect(() => {
     (async () => {
       try {
-        const { data } = await productApi.getAll({ _page: 1, _limit: 10 });
+        const { data, pagination } = await productApi.getAll(filters);
         setProductList(data);
+        setPagination(pagination);
       } catch (error) {
         console.log('Failed to fetch product list', error);
       }
 
       setLoading(false);
     })();
-  }, []);
+  }, [filters]);
+
+  const handlePageChange = (e, page) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      _page: page,
+    }));
+  };
 
   return (
     <Box>
@@ -50,6 +73,15 @@ function ListPage(props) {
               ) : (
                 <ProductList data={productList} />
               )}
+
+              <Box className={classes.pagination}>
+                <Pagination
+                  count={Math.ceil(pagination.total / pagination.limit)}
+                  page={pagination.page}
+                  color="primary"
+                  onChange={handlePageChange}
+                />
+              </Box>
             </Paper>
           </Grid>
         </Grid>
