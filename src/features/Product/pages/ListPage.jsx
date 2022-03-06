@@ -2,8 +2,11 @@ import { Box, Container, Grid, Pagination, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import productApi from 'api/productApi';
 import React, { useEffect, useState } from 'react';
+import FiltersSkeletonList from '../components/FiltersSkeletonList';
+import ProductFilters from '../components/ProductFilters';
 import ProductList from '../components/ProductList';
 import ProductSkeletonList from '../components/ProductSkeletonList';
+import ProductSort from '../components/ProductSort';
 
 ListPage.propTypes = {};
 
@@ -26,6 +29,7 @@ const useStyles = makeStyles({
 
 function ListPage(props) {
   const classes = useStyles();
+
   const [productList, setProductList] = useState([]);
   const [pagination, setPagination] = useState({
     limit: 9,
@@ -36,6 +40,7 @@ function ListPage(props) {
   const [filters, setFilters] = useState({
     _page: 1,
     _limit: 9,
+    _sort: 'salePrice:ASC',
   });
 
   useEffect(() => {
@@ -59,15 +64,44 @@ function ListPage(props) {
     }));
   };
 
+  const handleSortChange = (newSortValue) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      _sort: newSortValue,
+    }));
+  };
+
+  const handleFiltersChange = (newFilters) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      ...newFilters,
+    }));
+  };
+
   return (
     <Box>
       <Container>
         <Grid container spacing={1}>
           <Grid item className={classes.left}>
-            <Paper elevation={0}>Left</Paper>
+            <Paper elevation={0}>
+              {loading ? (
+                <FiltersSkeletonList />
+              ) : (
+                <ProductFilters
+                  filters={filters}
+                  onChange={handleFiltersChange}
+                />
+              )}
+            </Paper>
           </Grid>
+
           <Grid item className={classes.right}>
             <Paper elevation={0}>
+              <ProductSort
+                currentSort={filters._sort}
+                onChange={handleSortChange}
+              />
+
               {loading ? (
                 <ProductSkeletonList />
               ) : (

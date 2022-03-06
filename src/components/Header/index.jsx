@@ -45,6 +45,8 @@ const MODE = {
 
 export default function Header() {
   const dispatch = useDispatch();
+  const classes = useStyles();
+
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
 
@@ -52,6 +54,7 @@ export default function Header() {
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
 
+  // dialog register
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -60,6 +63,7 @@ export default function Header() {
     setOpen(false);
   };
 
+  // show menu infor user
   const handleUserClick = (e) => {
     setAnchorEl(e.currentTarget);
   };
@@ -73,8 +77,6 @@ export default function Header() {
     dispatch(action);
     handleCloseMenu();
   };
-
-  const classes = useStyles();
 
   return (
     <div className={classes.root}>

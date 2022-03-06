@@ -33,6 +33,8 @@ LoginForm.propTypes = {
 };
 
 function LoginForm(props) {
+  const classes = useStyles();
+
   const schema = yup.object().shape({
     identifier: yup
       .string()
@@ -49,8 +51,6 @@ function LoginForm(props) {
     },
     resolver: yupResolver(schema),
   });
-
-  const classes = useStyles();
 
   const handleSubmit = async (values) => {
     const { onSubmit } = props;
