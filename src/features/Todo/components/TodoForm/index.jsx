@@ -1,5 +1,5 @@
 import { yupResolver } from '@hookform/resolvers/yup';
-import InputField from 'components/form-controls/inputField';
+import InputField from 'components/form-controls/InputField';
 import PropTypes from 'prop-types';
 import React from 'react';
 import { useForm } from 'react-hook-form';

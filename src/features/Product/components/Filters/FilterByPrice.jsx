@@ -6,7 +6,7 @@ import { makeStyles } from '@mui/styles';
 const useStyles = makeStyles({
   root: {
     padding: 16,
-    borderTop: '1px solid #dbd8d8',
+    borderTop: '1px solid #f2f2f2',
   },
   range: {
     display: 'flex',
