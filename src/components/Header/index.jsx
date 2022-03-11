@@ -1,7 +1,7 @@
-import { AccountCircle } from '@mui/icons-material';
+import { AccountCircle, ShoppingCart } from '@mui/icons-material';
 import CloseIcon from '@mui/icons-material/Close';
 import CodeIcon from '@mui/icons-material/Code';
-import { IconButton, Menu, MenuItem } from '@mui/material';
+import { Badge, IconButton, Menu, MenuItem } from '@mui/material';
 import AppBar from '@mui/material/AppBar';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
@@ -13,8 +13,10 @@ import { Box } from '@mui/system';
 import Login from 'features/Auth/components/Login';
 import Register from 'features/Auth/components/Register';
 import { logout } from 'features/Auth/userSlice';
+import { cartItemsCountSelector } from 'features/Cart/selectors';
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Link, NavLink } from 'react-router-dom';
 
 const useStyles = makeStyles({
@@ -45,7 +47,9 @@ const MODE = {
 
 export default function Header() {
   const dispatch = useDispatch();
+  const history = useHistory();
   const classes = useStyles();
+  const cartItemsCount = useSelector(cartItemsCountSelector);
 
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
@@ -76,6 +80,10 @@ export default function Header() {
     const action = logout();
     dispatch(action);
     handleCloseMenu();
+  };
+
+  const handleCardClick = () => {
+    history.push('/cart');
   };
 
   return (
@@ -109,6 +117,17 @@ export default function Header() {
               <AccountCircle />
             </IconButton>
           )}
+
+          <IconButton
+            size="large"
+            aria-label="show 4 new mails"
+            color="inherit"
+            onClick={handleCardClick}
+          >
+            <Badge badgeContent={cartItemsCount} color="error">
+              <ShoppingCart />
+            </Badge>
+          </IconButton>
         </Toolbar>
       </AppBar>
 

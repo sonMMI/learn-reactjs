@@ -10,6 +10,7 @@ import AlbumFeature from './features/Album';
 import CounterFeature from './features/Counter';
 // import "./App.css";
 import TodoFeature from './features/Todo';
+import CartFeature from './features/Cart';
 
 function App() {
   // Render Element in reactjs
@@ -114,6 +115,7 @@ function App() {
         <Route path="/todos" component={TodoFeature} />
         <Route path="/albums" component={AlbumFeature} />
         <Route path="/products" component={ProductFeature} />
+        <Route path="/cart" component={CartFeature} />
 
         <Route path="/color" component={ColorBox} />
         <Route path="/count" component={Counter} />
