@@ -54,6 +54,8 @@ export default function Header() {
   const loggedInUser = useSelector((state) => state.user.current);
   const isLoggedIn = !!loggedInUser.id;
 
+  const isShowCartMini = !!useSelector((state) => state.cart.showMiniCart);
+
   const [open, setOpen] = useState(false);
   const [mode, setMode] = useState(MODE.LOGIN);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -93,7 +95,7 @@ export default function Header() {
           <CodeIcon className={classes.menuButton} />
 
           <Typography variant="h6" className={classes.title}>
-            <Link className={classes.link} to="/">
+            <Link className={classes.link} to="/products">
               DVS SHOP
             </Link>
           </Typography>
