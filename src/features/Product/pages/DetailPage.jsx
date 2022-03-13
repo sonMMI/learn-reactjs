@@ -1,8 +1,9 @@
 import { Box, Container, Grid, LinearProgress, Paper } from '@mui/material';
 import { makeStyles } from '@mui/styles';
 import { addToCart } from 'features/Cart/cartSlice';
+import { useSnackbar } from 'notistack';
 import React from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Route, Switch, useRouteMatch } from 'react-router-dom';
 import AddToCartForm from '../components/AddToCartForm';
 import ProductAdditional from '../components/ProductAdditional';
@@ -37,6 +38,10 @@ const useStyles = makeStyles({
 function DetailPage() {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
+
+  const isLoggedIn = useSelector((state) => state.user.current);
+
   const {
     params: { productId },
     url,
@@ -54,12 +59,17 @@ function DetailPage() {
   }
 
   const handleAddToCartSubmit = ({ quantity }) => {
-    const action = addToCart({
-      id: product.id,
-      product,
-      quantity,
-    });
-    dispatch(action);
+    if (Object.keys(isLoggedIn).length !== 0) {
+      enqueueSnackbar('Add To Cart Successfully 🎉', { variant: 'success' });
+      const action = addToCart({
+        id: product.id,
+        product,
+        quantity,
+      });
+      dispatch(action);
+    } else {
+      enqueueSnackbar('Please Login', { variant: 'warning' });
+    }
   };
 
   return (

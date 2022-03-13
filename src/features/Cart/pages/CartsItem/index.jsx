@@ -1,8 +1,9 @@
 import { Box, Button } from '@mui/material';
 import { makeStyles } from '@mui/styles';
-import { removeFormCart, setQuantity } from 'features/Cart/cartSlice';
+import { buyItems, removeFormCart, setQuantity } from 'features/Cart/cartSlice';
 import ProductCart from 'features/Cart/components/ProductCart';
 import { cartTotalSelector } from 'features/Cart/selectors';
+import { useSnackbar } from 'notistack';
 import { useDispatch, useSelector } from 'react-redux';
 import { formatPrice } from 'utils';
 
@@ -35,9 +36,11 @@ const useStyles = makeStyles({
 function CartsItem(props) {
   const cardTotal = useSelector(cartTotalSelector);
   const items = useSelector((state) => state.cart.cartItems);
+  const isLoggedIn = useSelector((state) => state.user.current);
 
   const classes = useStyles();
   const dispatch = useDispatch();
+  const { enqueueSnackbar } = useSnackbar();
 
   const handleRemoveItem = (id) => {
     const action = removeFormCart(id);
@@ -50,6 +53,15 @@ function CartsItem(props) {
       quantity: quantity.quantity,
     });
     dispatch(action);
+  };
+
+  const handleBuy = () => {
+    if (Object.keys(isLoggedIn).length !== 0) {
+      dispatch(buyItems());
+      enqueueSnackbar('Buy Successfully 🎉', { variant: 'success' });
+    } else {
+      enqueueSnackbar('Please Login', { variant: 'warning' });
+    }
   };
 
   return (
@@ -74,6 +86,7 @@ function CartsItem(props) {
             color="primary"
             sx={{ width: '250px' }}
             size="large"
+            onClick={handleBuy}
           >
             Buy
           </Button>

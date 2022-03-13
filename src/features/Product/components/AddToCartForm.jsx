@@ -42,7 +42,7 @@ function AddToCartForm({ onSubmit = null }) {
         sx={{ width: '250px' }}
         size="large"
       >
-        Buy
+        Add To Cart
       </Button>
     </form>
   );

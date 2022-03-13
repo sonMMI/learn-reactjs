@@ -39,8 +39,11 @@ const cartSlice = createSlice({
 
     removeFormCart(state, action) {
       const idNeedToRemove = action.payload;
-      console.log(idNeedToRemove);
       state.cartItems = state.cartItems.filter((x) => x.id !== idNeedToRemove);
+    },
+
+    buyItems(state) {
+      state.cartItems = [];
     },
   },
 });
@@ -52,5 +55,6 @@ export const {
   addToCart,
   setQuantity,
   removeFormCart,
+  buyItems,
 } = actions;
 export default reducer;
